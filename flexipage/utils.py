@@ -3,8 +3,10 @@ import os
 from django.template.loader import get_template
 from django.template.loader_tags import ExtendsNode
 from django.conf import settings
-from django.template.base import TemplateDoesNotExist
-
+try:
+    from django.template.base import TemplateDoesNotExist
+except:
+    from django.template import TemplateDoesNotExist
 try:
     from django.template.base import VariableNode
 except ImportError:
@@ -52,7 +54,7 @@ def get_template_variables(nodes):
             try:
                 parent_template = get_flexi_template(parent_template_path)
             except TemplateDoesNotExist:
-                print 'couldn\'t find template: %s' % parent_template_path
+                print('couldn\'t find template: %s' % parent_template_path)
                 continue
             return variables + get_template_variables(parent_template.nodelist)
 
@@ -175,8 +177,3 @@ def get_flexi_tags(template_name):
         else:
             flexi_tags.append(ft)
     return flexi_tags
-
-
-
-
-
